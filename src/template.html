@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <link rel="stylesheet" href="styles/template.css" />
+    <title>Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Common css */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Roboto', sans-serif;
+      }
+      img {
+        max-width: 100%;
+      }
+      li {
+        list-style: none;
+      }
+      a {
+        text-decoration: none;
+      }
+      .container {
+        max-width: 1200px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 0 15px;
+      }
+      .m-0 {
+        margin: 0 !important;
+      }
+      button {
+        background-color: transparent;
+        border: none;
+        outline: none;
+      }
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #fff;
+        border-radius: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        border-radius: 10px;
+        box-shadow: inset 0 0 5px #483f5a;
+      }
+
+      /* sec css start */
+      .hermesRaw_calculator_sec {
+        background-image: url('images/demo-background.svg'),
+          linear-gradient(to bottom, #000, #92298f);
+        padding: 85px 0;
+        min-height: 100vh;
+        height: 100%;
+      }
+      .sec_heading {
+        font-size: 40px;
+        line-height: 1.5;
+        font-weight: 600;
+        margin-bottom: 24px;
+        color: #fff;
+        text-align: center;
+      }
+      .add_Btn [type='button'] {
+        background: #1c1f2e;
+        border: none;
+        outline: none;
+        border-radius: 9px 0 9px 0;
+        padding: 9px 20px;
+        font-size: 16px;
+        font-weight: 500;
+        color: #fff;
+        cursor: pointer;
+      }
+      .textarea_inner {
+        background-color: rgba(255, 255, 255, 0.25);
+        padding: 35px 5%;
+        width: 70%;
+        border-radius: 10px;
+        height: 717px;
+        overflow-y: scroll;
+        position: relative;
+        overflow-x: hidden;
+      }
+      .textarea_wrapper {
+        display: flex;
+        align-items: flex-start;
+        gap: 4px;
+      }
+      .sidebar_options {
+        width: 30%;
+      }
+      .option {
+        cursor: pointer;
+        padding: 10px;
+        text-align: left;
+        -webkit-user-select: none;
+        user-select: none;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        width: 100%;
+        font-size: 15px;
+        font-weight: 600;
+        color: #653971;
+        position: relative;
+      }
+      .sidebar_options > ul > li {
+        background-color: #fff;
+        border-radius: 9px 0 9px 0;
+        margin-bottom: 4px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .option[step='stepCompleted']::after {
+        content: url(images/completed2.png);
+        object-fit: cover;
+        position: absolute;
+        top: 50%;
+        right: 20px;
+        transform: translateY(-50%);
+        line-height: 0;
+      }
+      .add_Btn {
+        text-align: right;
+        margin-top: 20px;
+      }
+      /* form css start */
+      .form_inner {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 15px;
+        width: 100%;
+      }
+      .form_items {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+      .form_input {
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1;
+        padding: 10px 15px;
+        border-radius: 9px 0 9px 0;
+        outline: none;
+        border: none;
+        color: #7d4a8e;
+      }
+      .form_input:focus {
+        box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%), 0 0 8px rgb(102 175 233 / 60%);
+      }
+      .input_label {
+        color: #fff;
+        margin-bottom: 5px;
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+      }
+      .textarea_wrapper .sec_heading {
+        font-size: 26px;
+        line-height: 1;
+      }
+      .value {
+        font-size: 26px;
+        color: #fff;
+        font-weight: 500;
+      }
+      .final_value {
+        width: 150px;
+        min-height: 150px;
+        display: grid;
+        place-content: center;
+        border-radius: 50%;
+        background: #8d729a;
+        padding: 10px;
+        text-align: center;
+      }
+      #DERForm {
+        padding: 20px 0 24px;
+      }
+      #RERForm,
+      #DERForm {
+        padding-bottom: 30px;
+      }
+      p.value span {
+        font-size: 13px;
+      }
+      .activity_dropdown {
+        position: absolute;
+        top: 60px;
+        background: #fff;
+        z-index: 2;
+        padding: 15px 0;
+        width: 100%;
+        left: 0;
+        border-radius: 9px 0 9px 0;
+      }
+      p.list_item {
+        font-size: 14px;
+        padding: 5px 15px;
+        cursor: pointer;
+        transition: 0.3s;
+        border-radius: 9px 0 9px 0;
+        color: #1c1f2e;
+      }
+      p.list_item:hover {
+        background-color: #7b468d4d;
+      }
+      #DERForm .form_inner {
+        grid-template-columns: 1fr 1fr;
+        margin-bottom: 15px;
+      }
+      .repeater_item {
+        display: flex;
+        align-items: flex-end;
+        gap: 15px;
+      }
+      .repeater_item:not(:last-child) {
+        margin-bottom: 15px;
+      }
+      .repeater_btn {
+        margin: 0;
+      }
+      /* .repeater_item .form_input {
+        width: 50%;
+      } */
+      .label_item {
+        display: flex;
+        flex-direction: column;
+      }
+      .repeater_item .label_item {
+        width: 50%;
+      }
+      .daily_intake,
+      .calculate_feeding {
+        padding-top: 40px;
+      }
+      .repeater_item:first-child .add_Btn {
+        display: none;
+      }
+      /* form css end */
+
+      /* sec css end */
+    </style>
+  </head>
+
+  <body>
+    <div id="root">
+      <section class="hermesRaw_calculator_sec">
+        <div class="container">
+          <!-- sec content -->
+          <div class="sec_content">
+            <div class="sec_contet_inner">
+              <div class="sec_heading">HermesRaw Calculator</div>
+              <div class="textarea_wrapper">
+                <div class="textarea_inner">
+                  <!-- ======= RER Form Start ======= -->
+                  <div class="form" id="RERForm">
+                    <div class="form_head">
+                      <h2 class="sec_heading">Calculate (RER)</h2>
+                    </div>
+                    <div class="form_content" id="RERformContent">
+                      <div class="form_inner">
+                        <div class="form_items">
+                          <label for="labelId" class="input_label">Label</label>
+                          <input type="text" autocomplete="off" class="form_input" id="labelId" />
+                        </div>
+
+                        <div class="form_items">
+                          <label for="Exponent" class="input_label">Exponent:</label>
+                          <input
+                            type="number"
+                            autocomplete="off"
+                            class="form_input"
+                            id="Exponent"
+                          />
+                        </div>
+                        <div class="form_items">
+                          <label for="Multiplier" class="input_label">Multiplier:</label>
+                          <input
+                            type="number"
+                            autocomplete="off"
+                            class="form_input"
+                            id="Multiplier"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="add_Btn">
+                    <button type="button" id="addRER">Add RER +</button>
+                  </div>
+                  <!-- ======= RER Form Start ======= -->
+
+                  <!-- ======= DER Form Start ======= -->
+                  <div class="repeater_form" id="DERForm">
+                    <h2 class="sec_heading">Calculate (DER)</h2>
+                    <div class="repeater">
+                      <div data-repeater-list="group-b">
+                        <div data-repeater-item class="repeater_item">
+                          <div class="label_item">
+                            <label class="input_label">Label</label>
+                            <input type="text" class="form_input" name="text-input" />
+                          </div>
+                          <div class="label_item">
+                            <label class="input_label">Value</label>
+                            <input type="text" name="text-input" class="form_input" value="" />
+                          </div>
+                          <div class="add_Btn repeater_btn">
+                            <input data-repeater-delete type="button" value="Delete">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="add_Btn">
+                        <input data-repeater-create type="button" value="Add +">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="add_Btn">
+                    <button type="button" id="derFormBtn">Add DER +</button>
+                  </div>
+                  <!-- ======= DER Form End ======= -->
+
+                  <!-- ======= Daily Intake Form Start ======= -->
+                  <div class="daily_intake" id="dailyIntake">
+                    <h2 class="sec_heading">Calculate (Daily Intake)</h2>
+                    <div class="form_inner">
+                      <div class="form_items">
+                        <label class="input_label" for="Calories"
+                          >Amount of raw food for Calories</label
+                        >
+                        <input type="number" class="form_input" value="1000" id="Calories" />
+                      </div>
+                      <div class="form_items">
+                        <label class="input_label" for="quantity">Oz.Quantity</label>
+                        <input type="number" class="form_input" value="19" id="quantity" />
+                      </div>
+                      <div class="form_items">
+                        <label class="input_label" for="Weight"> Net Weight(gm)</label>
+                        <input type="number" class="form_input" value="" id="Weight" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="add_Btn">
+                    <button type="button" id="dailyIntakeBtn">Add Daily Intake +</button>
+                  </div>
+                  <!-- ======= Daily Intake Form End ======= -->
+
+                  <!-- ======= Feeding Start ======= -->
+                  <div class="calculate_feeding" id="calculateFeeding">
+                    <h2 class="sec_heading">Calculate (Feeding)</h2>
+                    <div class="repeater_form" id="Feeding">
+                      <div class="repeater">
+                        <div data-repeater-list="group-a">
+                          <div data-repeater-item class="repeater_item">
+                            <div class="label_item">
+                              <label class="input_label">Label</label>
+                              <input type="text" class="form_input" name="text-input" />
+                            </div>
+                            <div class="label_item">
+                              <label class="input_label">Value</label>
+                              <input type="text" name="text-input" class="form_input" value="" />
+                            </div>
+                            <div class="add_Btn repeater_btn">
+                              <input data-repeater-delete type="button" value="Delete" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="add_Btn">
+                          <input data-repeater-create type="button" value="Add +" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="add_Btn">
+                    <button type="button" id="addFeeding">Add Feeding +</button>
+                  </div>
+                  <!-- ======= Feeding End ======= -->
+                </div>
+                <div class="sidebar_options">
+                  <ul>
+                    <li step="stepCompleted">
+                      <button class="option" id="RERoption">RER</button>
+                    </li>
+                    <li>
+                      <button class="option" id="DERoption">DER</button>
+                    </li>
+                    <li>
+                      <button class="option" id="dailyIntakeOption">Daily Intake</button>
+                    </li>
+                    <li>
+                      <button class="option" id="Feedingoption">Feeding</button>
+                    </li>
+                    <li>
+                      <button class="option" id="ProductRecommendation">
+                        Product Recommendation
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- script links -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.repeater/1.2.1/jquery.repeater.min.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
